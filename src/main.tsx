@@ -1,4 +1,5 @@
 import "./booksDemo";
+import "./practice/book-formats/demo";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
