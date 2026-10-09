@@ -1,34 +1,57 @@
 import styled from "@emotion/styled";
+import { type ReactNode } from "react";
+
+interface ButtonProps {
+  size: "small" | "large";
+  children: ReactNode;
+}
 
 const DemoBlock = styled.section`
   margin-top: 24px;
   padding: 20px;
+
   background: linear-gradient(
     135deg,
-    #d9c4f4,
-    #c2a4eb
+    #d8c4ff,
+    #b99bea
   );
-  border: 1px solid #a77ad8;
+
+  border: 1px solid #9d7bd0;
   border-radius: 18px;
-  box-shadow: 0 10px 24px rgba(91, 59, 140, 0.18);
+
+  box-shadow: 0 10px 24px
+    rgba(91, 59, 140, 0.18);
 `;
 
 const DemoTitle = styled.h2`
   margin: 0 0 16px;
+
   font-size: 22px;
   font-weight: 700;
+
   color: #4f2f79;
 `;
 
-const AddButton = styled.button`
-  padding: 12px 22px;
+const StyledButton = styled.button<ButtonProps>`
   color: #ffffff;
+
   background-color: #7b4db3;
+
   border: none;
   border-radius: 12px;
+
   cursor: pointer;
-  font-size: 16px;
   font-weight: 600;
+
+  padding: ${({ size }) =>
+    size === "small"
+      ? "7px 14px"
+      : "12px 24px"};
+
+  font-size: ${({ size }) =>
+    size === "small"
+      ? "14px"
+      : "18px"};
 
   &:hover {
     background-color: #5e348f;
@@ -45,6 +68,23 @@ const AddButton = styled.button`
   }
 `;
 
+function Button({
+  size,
+  children,
+}: ButtonProps) {
+  return (
+    <StyledButton size={size}>
+      {children}
+    </StyledButton>
+  );
+}
+
+const Buttons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+`;
+
 export default function StyledButtonDemo() {
   return (
     <DemoBlock>
@@ -52,9 +92,15 @@ export default function StyledButtonDemo() {
         Демонстрация styled-компонента
       </DemoTitle>
 
-      <AddButton type="button">
-        Добавить книгу
-      </AddButton>
+      <Buttons>
+        <Button size="small">
+          Предложения
+        </Button>
+
+        <Button size="large">
+          Добавить книгу
+        </Button>
+      </Buttons>
     </DemoBlock>
   );
 }
