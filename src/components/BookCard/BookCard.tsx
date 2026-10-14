@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 
 interface BookCardProps {
   book: Book;
+  deleteBook: (id: number) => void;
 }
 
 interface StatusStyleProps {
@@ -20,8 +21,8 @@ interface CoverTitleStyleProps {
 const Card = styled.article`
   display: flex;
   align-items: flex-start;
-  gap: 22px;
-  padding: 16px;
+  gap: 28px;
+  padding: 20px;
 
   background: linear-gradient(
     135deg,
@@ -91,17 +92,28 @@ const CoverTitle =
     }};
   `;
 
+const Content = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding-top: 4px;
+
+  text-align: left;
+`;
+
 const Title = styled.h3`
-  margin: 8px 0;
+  margin: 0 0 8px;
 
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
 
   color: #4f3473;
 `;
 
 const Author = styled.p`
-  margin: 0 0 12px;
+  margin: 0 0 14px;
 
   font-size: 18px;
 
@@ -168,11 +180,13 @@ const Badge = styled.span<StatusStyleProps>`
 `;
 
 const Info = styled.p`
-  margin: 12px 0 0;
+  margin: 14px 0 0;
 
   font-size: 17px;
 
   color: #745f87;
+
+  text-align: left;
 `;
 
 const Stars = styled.span`
@@ -230,6 +244,7 @@ const statusText = {
 
 export default function BookCard({
   book,
+  deleteBook,
 }: BookCardProps) {
   const rating = book.rating || 0;
   const stars = "★".repeat(rating);
@@ -244,14 +259,10 @@ export default function BookCard({
         </CoverTitle>
       </Cover>
 
-      <div>
-        <Title>
-          {book.title}
-        </Title>
+      <Content>
+        <Title>{book.title}</Title>
 
-        <Author>
-          {book.author}
-        </Author>
+        <Author>{book.author}</Author>
 
         <Badge status={book.status}>
           {statusText[book.status]}
@@ -273,14 +284,16 @@ export default function BookCard({
           </>
         ) : (
           <Info>
-            Оценка будет доступна
-            после прочтения
+            Оценка будет доступна после прочтения
           </Info>
         )}
-      </div>
+      </Content>
 
       <DeleteButton
         type="button"
+        onClick={() =>
+          deleteBook(book.id)
+        }
         aria-label="Удалить книгу"
       >
         🗑️
